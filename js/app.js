@@ -20,48 +20,29 @@ HornedAnimal.prototype.render = function () {
 };
 
 
+let animalKeywords = [];
+
 HornedAnimal.readJson = () => {
-  $.ajax('./data/page-1.json').then(data => {
-    data.forEach(item => {
-      let animal = new HornedAnimal(item);
-      console.log(animal);
-      animal.render();
+  $.ajax('./data/page-1.json')
+    .then(data => {
+      let keywordsArr = new Set(animalKeywords);
+      data.forEach(item => {
+        let animal = new HornedAnimal(item);
+        keywordsArr.add(animal.keyword);
+        animal.render();
+      });
+      generateDropDown(keywordsArr);
     });
-  });
 };
 
+
+function generateDropDown(arr) {
+  arr.forEach(item => {
+    $('select').append(`<option value=${item}>${item}</option>`);
+  });
+}
+
 $(() => HornedAnimal.readJson());
-
-
-
-
-
-
-
-// Dog.prototype.render = function () {
-//   let $dogClone = $('.dog-template').clone();
-//   $('main').append($dogClone);
-//   $dogClone.find('h2').text(this.name);
-//   $dogClone.find('img').attr('src', this.image_url);
-//   $dogClone.find('p').text(this.hobbies);
-//   $dogClone.removeClass('dog-template');
-//   $dogClone.attr('class', this.name);
-// };
-
-// Dog.readJson = () => {
-
-//   $.ajax('data.json').then(data => {
-//     data.forEach(item => {
-//       let dog = new Dog(item);
-//       console.log(dog);
-//       dog.render();
-//     });
-//   });
-// };
-
-// $(() => Dog.readJson());
-
-
 
 
 
