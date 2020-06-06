@@ -1,5 +1,7 @@
 'use strict';
 
+let animalKeywords = [];
+
 function HornedAnimal(animal) {
   this.title = animal.title;
   this.description = animal.description;
@@ -19,9 +21,6 @@ HornedAnimal.prototype.render = function () {
   $animalClone.attr('class', this.title);
 };
 
-
-let animalKeywords = [];
-
 HornedAnimal.readJson = () => {
   $.ajax('./data/page-1.json')
     .then(data => {
@@ -35,17 +34,22 @@ HornedAnimal.readJson = () => {
     });
 };
 
-
 function generateDropDown(arr) {
   arr.forEach(item => {
     $('select').append(`<option value=${item}>${item}</option>`);
   });
 }
 
-$(() => HornedAnimal.readJson());
 
 
+$(document).ready(function () {
 
+  $(() => HornedAnimal.readJson());
 
+  $('select').on('change', function () {
+    $('div').slideUp();
+    let selectedValue = $(this).val();
+    $(`div[class=${selectedValue}]`).fadeIn();
+  });
 
-
+});
