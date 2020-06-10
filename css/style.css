@@ -9,14 +9,40 @@ header {
 
 h1 {
   padding: 20px;
+  font-size: 30px;
+  border: solid 1px blue;
+}
+
+select {
+  margin: 20px;
 }
 
 div {
   width: 300px;
   border: 1px solid black;
   margin: 20px;
+  text-align: center;
+}
+
+div h2 {
+  padding: 10px;
+}
+
+div p {
+  padding: 10px;
 }
 
 img {
-  width: 80%;
+  max-width: 80%;
+  max-height: 80%;
+}
+
+section {
+  width: 90%;
+  border: 1px solid gray;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
