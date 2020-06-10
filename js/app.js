@@ -10,15 +10,10 @@ function HornedAnimal(animal) {
   this.image_url = animal.image_url;
 }
 
-HornedAnimal.prototype.render = function () {
-  let $animalClone = $('.photo-template').clone();
-  $animalClone.removeClass('photo-template');
-  $animalClone.find('h2').text(this.title);
-  $animalClone.find('img').attr('src', this.image_url);
-  $animalClone.find('img').attr('alt', this.title);
-  $animalClone.find('p').text(this.description);
-  $animalClone.addClass(this.keyword);
-  $('section').append($animalClone);
+HornedAnimal.prototype.render = function (object) {
+  let $template = $('#template').html();
+  let rendered = Mustache.render($template, object);
+  $('section').append(rendered);
 };
 
 HornedAnimal.readJson = () => {
@@ -29,7 +24,7 @@ HornedAnimal.readJson = () => {
       data.forEach(item => {
         let animal = new HornedAnimal(item);
         keywordsArr.add(animal.keyword);
-        animal.render();
+        animal.render(item);
       });
       $('.photo-template').hide();
       generateDropDown(keywordsArr);
