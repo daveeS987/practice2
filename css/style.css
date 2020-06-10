@@ -1,7 +1,22 @@
 @import "reset.css";
 @import "base.css";
-@import "layout.css";
+@import "layouts.css";
 @import "modules.css";
+header {
+  height: 80px;
+  text-align: center;
+}
+
+h1 {
+  padding: 20px;
+}
+
 div {
-  display: none;
+  width: 300px;
+  border: 1px solid black;
+  margin: 20px;
+}
+
+img {
+  width: 80%;
 }
