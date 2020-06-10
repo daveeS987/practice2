@@ -1,9 +1,6 @@
 'use strict';
 
 // let animalKeywords = [];
-let $gallery = $('section');
-let $filterDropDown = $('.filter');
-
 
 function HornedAnimal(animal) {
   this.title = animal.title;
@@ -21,7 +18,7 @@ HornedAnimal.prototype.render = function () {
   $animalClone.find('img').attr('alt', this.title);
   $animalClone.find('p').text(this.description);
   $animalClone.attr('class', this.title);
-  $gallery.append($animalClone);
+  $('section').append($animalClone);
 };
 
 HornedAnimal.readJson = () => {
@@ -43,16 +40,15 @@ function generateDropDown(arr) {
   });
 }
 
-$filterDropDown.on('change', filterHorns);
+let $filterDropDown = $('.filter');
+$filterDropDown.on('change', filterKeywords);
 
-function filterHorns() {
+function filterKeywords() {
   let keyword = $(this).val();
   console.log(keyword);
-  $('div').hide();
   if (keyword) {
+    $('section').hide();
     $(`.${keyword}`).fadeIn();
   }
-}
 
-$(() => HornedAnimal.readJson());
-
+  $(() => HornedAnimal.readJson());
