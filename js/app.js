@@ -1,6 +1,7 @@
 'use strict';
 
 let pageSelection = './data/page-1.json';
+let sortSelection = 'byTitle';
 
 function HornedAnimal(animal) {
   this.title = animal.title;
@@ -10,21 +11,29 @@ function HornedAnimal(animal) {
   this.image_url = animal.image_url;
 }
 
-HornedAnimal.prototype.render = function (object) {
+function render(object) {
   let $template = $('#template').html();
   let rendered = Mustache.render($template, object);
   $('section').append(rendered);
-};
+}
 
 HornedAnimal.readJson = () => {
-  console.log('readJson:', pageSelection);
   $.ajax(pageSelection)
     .then(data => {
       let keywordsArr = new Set;
+      let animalsArr = [];
       data.forEach(item => {
         let animal = new HornedAnimal(item);
         keywordsArr.add(animal.keyword);
-        animal.render(item);
+        animalsArr.push(animal);
+      });
+      if (sortSelection === 'byTitle') {
+        animalsArr.sort(sortTitle);
+      } else {
+        animalsArr.sort(sortHorns);
+      }
+      animalsArr.forEach(item => {
+        render(item);
       });
       $('.photo-template').hide();
       generateDropDown(keywordsArr);
@@ -59,8 +68,34 @@ function handlePageOption() {
   $filterDropDown.empty();
   $('div').show();
   pageSelection = $(this).val();
-  console.log('handlePageOption:', pageSelection);
   $(() => HornedAnimal.readJson());
+}
+
+// ********* Sort Option *************
+let $sortOption = $('.sortOption');
+$sortOption.on('change', handleSort);
+
+function handleSort() {
+  $('section').empty();
+  $filterDropDown.empty();
+  $('div').show();
+  sortSelection = $(this).val();
+  $(() => HornedAnimal.readJson());
+}
+
+function sortHorns(a, b) {
+  return a.horns - b.horns;
+}
+function sortTitle(a, b) {
+  var titleA = a.title.toUpperCase();
+  var titleB = b.title.toUpperCase();
+  if (titleA < titleB) {
+    return -1;
+  }
+  if (titleA > titleB) {
+    return 1;
+  }
+  return 0;
 }
 
 
